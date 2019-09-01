@@ -4,7 +4,9 @@ defmodule Hauer.Router do
     plug :match
     plug :dispatch
 
-    parsed = YamerlWrapper.file("./conf.yml")
+    @conf_file Application.get_env(:hauer, :conf_file)
+
+    parsed = YamerlWrapper.file(@conf_file)
 
     # [[{'resources', ['example1', 'example2']}]]
     [[{_, resources}]] = parsed
