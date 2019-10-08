@@ -51,7 +51,8 @@ defmodule Mix.Tasks.Hauer do
   Update the project configuration according to resource name
   """
   def update_config(resource_name) do
-    {:ok, pwd} = File.cwd()
+    IO.inspect(resource_name)
+    # {:ok, pwd} = File.cwd()
     conf = Hauer.Configuration.read()
     IO.inspect(conf)
   end
