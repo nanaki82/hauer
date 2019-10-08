@@ -6,4 +6,3 @@ defmodule YamerlWrapper do
     :yamerl_constr.file(path)
   end
 end
-
