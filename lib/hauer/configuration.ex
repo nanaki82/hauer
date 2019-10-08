@@ -38,4 +38,11 @@ defmodule Hauer.Configuration do
       |> Enum.map(fn x -> Map.to_list(x) |> List.first end) 
       |> Enum.map(fn ({resource, _}) -> resource end)
   end
+
+  def add_resource(resource_name) do
+    updated_resources =
+      Hauer.Configuration.read()
+      |> Map.update(:resources, [], &Enum.concat(&1, [%{resource_name => %{}}]))
+      |> Hauer.Configuration.write()
+  end
 end

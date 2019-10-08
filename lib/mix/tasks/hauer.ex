@@ -18,12 +18,15 @@ defmodule Mix.Tasks.Hauer do
 
     case verb do
       "update" ->
+        Mix.shell().info("Updating configuration with #{resource_name}")
         update_config(resource_name)
         :ok
       "resource" ->  
         Mix.shell().info("Creating #{resource_name}")
         new_resource(resource_name)
         :ok
+      _ ->
+        Mix.shell().info("I'm afraid I can't do that, Dave.")
     end
 
     Mix.shell().info("All done.")
@@ -56,8 +59,6 @@ defmodule Mix.Tasks.Hauer do
   Update the project configuration according to resource name
   """
   def update_config(resource_name) do
-    IO.puts(resource_name)
-    # {:ok, pwd} = File.cwd()
-    conf = Hauer.Configuration.read()
+    Hauer.Configuration.add_resource(resource_name)
   end
 end
