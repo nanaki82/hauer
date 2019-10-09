@@ -8,11 +8,8 @@ defmodule Hauer.Router do
 
   plug(:match)
   plug(:dispatch)
-
   parsed = Configuration.read()
-
-  # [[{'resources', ['example1', 'example2']}]]
-  [[{_, resources}]] = parsed
+  resources = Configuration.parse_conf(parsed["resources"])
 
   get "/" do
     conn |> send_resp(200, ":ok")
