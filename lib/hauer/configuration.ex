@@ -21,9 +21,7 @@ defmodule Hauer.Configuration do
       File.touch!(conf_file_path)
     end
 
-    {:ok, io_device} = File.open conf_file_path, [:write, :utf8]
-    IO.write io_device, encoded_conf
-    File.close io_device
+    File.write! conf_file_path, encoded_conf, [:write, :utf8]
   end
 
 
