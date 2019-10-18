@@ -1,4 +1,8 @@
 defmodule Hauer.Dsl.Wrappers do
+  @moduledoc """
+  Macro wrapper to define route generation
+  """
+
   defmacro generate_route(route) do
     quote do
       slug = unquote(route)
