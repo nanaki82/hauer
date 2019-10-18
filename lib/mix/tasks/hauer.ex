@@ -21,10 +21,12 @@ defmodule Mix.Tasks.Hauer do
         Mix.shell().info("Updating configuration with #{resource_name}")
         update_config(resource_name)
         :ok
-      "resource" ->  
+
+      "resource" ->
         Mix.shell().info("Creating #{resource_name}")
         new_resource(resource_name)
         :ok
+
       _ ->
         Mix.shell().info("I'm afraid I can't do that, Dave.")
     end
