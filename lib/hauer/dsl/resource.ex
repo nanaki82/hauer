@@ -1,4 +1,8 @@
 defmodule Hauer.Dsl.Resource do
+  @moduledoc """
+  Resource wrapper that takes defined resources and generates code
+  """
+
   require Hauer.Dsl.Wrappers
 
   alias Hauer.Dsl.Wrappers, as: Wrappers

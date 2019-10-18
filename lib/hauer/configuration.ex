@@ -1,4 +1,8 @@
 defmodule Hauer.Configuration do
+  @moduledoc """
+  Configuration wrapper. It takes current environment and parses config file.
+  """
+
   @conf_file Application.get_env(:hauer, :conf_file)
 
   def read do 
