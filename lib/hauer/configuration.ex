@@ -5,14 +5,14 @@ defmodule Hauer.Configuration do
 
   @conf_file Application.get_env(:hauer, :conf_file)
 
-  def read do 
-    File.open! @conf_file, [:read, :utf8], fn file -> 
-      conf = IO.read file, :all
+  def read do
+    File.open!(@conf_file, [:read, :utf8], fn file ->
+      conf = IO.read(file, :all)
       Jason.decode!(conf, %{:keys => :atoms})
-    end
+    end)
   end
 
-  def write new_conf do
+  def write(new_conf) do
     encoded_conf = Jason.encode!(new_conf, %{:pretty => true})
     {:ok, pwd} = File.cwd()
 
@@ -25,17 +25,23 @@ defmodule Hauer.Configuration do
       File.touch!(conf_file_path)
     end
 
-    File.write! conf_file_path, encoded_conf, [:write, :utf8]
+    File.write!(conf_file_path, encoded_conf, [:write, :utf8])
   end
 
-
-  def parse_conf nil do
+  def parse_conf(nil) do
     []
   end
 
-  def parse_conf resources do
+  def parse_conf(resources) do
     resources
-      |> Enum.map(fn x -> Map.to_list(x) |> List.first end) 
-      |> Enum.map(fn ({resource, _}) -> resource end)
+    |> Enum.map(fn x -> Map.to_list(x) |> List.first() end)
+    |> Enum.map(fn {resource, _} -> resource end)
+  end
+
+  def add_resource(resource_name) do
+    updated_resources =
+      Hauer.Configuration.read()
+      |> Map.update(:resources, [], &Enum.concat(&1, [%{resource_name => %{}}]))
+      |> Hauer.Configuration.write()
   end
 end

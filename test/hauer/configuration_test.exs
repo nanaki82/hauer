@@ -3,12 +3,12 @@ defmodule ConfigurationTest do
 
   alias Hauer.Configuration
 
-  setup do 
+  setup do
     configuration_backup = Configuration.read()
 
-    on_exit fn -> 
+    on_exit(fn ->
       Configuration.write(configuration_backup)
-    end
+    end)
   end
 
   test "reading configuration" do
@@ -17,7 +17,7 @@ defmodule ConfigurationTest do
   end
 
   test "writing configuration" do
-    map_test = %{ :test => "is ok!" }
+    map_test = %{:test => "is ok!"}
     Configuration.write(map_test)
     test_configuration = Configuration.read()
 
