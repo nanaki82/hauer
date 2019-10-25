@@ -24,3 +24,5 @@ hauer-*.tar
 
 *.swp
 *.swo
+
+lib/middleware
