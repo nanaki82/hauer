@@ -24,7 +24,8 @@ defmodule Hauer.MixProject do
     [
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.1.0", only: [:dev, :test], runtime: false},
-      {:jason, "~> 1.1"}
+      {:jason, "~> 1.1"},
+      {:remix, "~> 0.0.1", only: :dev}
     ]
   end
 end
