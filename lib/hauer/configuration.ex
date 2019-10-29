@@ -2,30 +2,16 @@ defmodule Hauer.Configuration do
   @moduledoc """
   Configuration wrapper. It takes current environment and parses config file.
   """
-
-  @conf_file Application.get_env(:hauer, :conf_file)
-
+  
   def read do
-    File.open!(@conf_file, [:read, :utf8], fn file ->
-      conf = IO.read(file, :all)
-      Jason.decode!(conf, %{:keys => :atoms})
-    end)
+    Hauer.FS.read_conf()
+    |> Jason.decode!(%{:keys => :atoms})
   end
 
   def write(new_conf) do
     encoded_conf = Jason.encode!(new_conf, %{:pretty => true})
-    {:ok, pwd} = File.cwd()
 
-    conf_file_path = "#{pwd}/#{@conf_file}"
-
-    # todo remove it
-    conf_file_exists? = File.exists?(conf_file_path)
-
-    if conf_file_exists? == false do
-      File.touch!(conf_file_path)
-    end
-
-    File.write!(conf_file_path, encoded_conf, [:write, :utf8])
+    Hauer.FS.write_conf(encoded_conf)
   end
 
   def parse_conf(nil) do
@@ -39,9 +25,8 @@ defmodule Hauer.Configuration do
   end
 
   def add_resource(resource_name) do
-    updated_resources =
-      Hauer.Configuration.read()
-      |> Map.update(:resources, [], &Enum.concat(&1, [%{resource_name => %{}}]))
-      |> Hauer.Configuration.write()
+    Hauer.Configuration.read()
+    |> Map.update(:resources, [], &Enum.concat(&1, [%{resource_name => %{}}]))
+    |> Hauer.Configuration.write()
   end
 end
