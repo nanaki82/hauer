@@ -2,6 +2,7 @@ defmodule Hauer.FS do
   @moduledoc false
 
   @resources_dir Application.get_env(:hauer, :resources_dir)
+  @conf_file Application.get_env(:hauer, :conf_file)
 
   defp create_resources_dir() do
     resources_dir = get_resources_dir()
@@ -43,5 +44,29 @@ defmodule Hauer.FS do
     File.rm!(resource_file_path)
     
     :ok
+  end
+
+  def get_conf_path() do
+    {:ok, pwd} = File.cwd()
+    
+    "#{pwd}/#{@conf_file}"
+  end
+
+  def write_conf(encoded_conf) do
+    conf_file_path = get_conf_path()
+
+    conf_file_exists? = File.exists?(conf_file_path)
+
+    if conf_file_exists? == false do
+      File.touch!(conf_file_path)
+    end
+
+    File.write!(conf_file_path, encoded_conf, [:write, :utf8])
+  end
+
+  def read_conf() do
+    File.open!(get_conf_path(), [:read, :utf8], fn file ->
+      IO.read(file, :all)
+    end)
   end
 end
